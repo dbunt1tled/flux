@@ -13,6 +13,13 @@
 2. Все секреты зашифрованы с помощью SOPS
 3. Изменения применяются автоматически через Git commits
 
-Добавить в кластер ключ 
+# SOPS - AGE
+
+## Add Private key to Cluster
+
 kubectl create secret generic sops-age --from-file=age.agekey=.sops-key/age.agekey -n flux-system
 secret/sops-age created
+
+## Encrypt
+
+sops --age=age1vn0qveeefceqjx26373f2kcqeva8yw92jyttd8hafwcse2twldxs0lcn4c --encrypt --encrypted-regex '^(data|stringData)$'--in-place secrets/production/test-secret.yaml
