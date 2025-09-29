@@ -1,0 +1,11 @@
+*.agekey
+age.agekey
+
+*.tmp
+*.bak
+.DS_Store
+
+.vscode/
+.idea/
+
+*.log
