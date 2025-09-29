@@ -16,7 +16,6 @@ spec:
             - --watch-all-namespaces=true
             - --log-level=debug
             - --log-encoding=json
-            - --enable-helm-controller=true
             - --decryption-provider=sops
             - --decryption-secret=sops-age
           volumeMounts:
