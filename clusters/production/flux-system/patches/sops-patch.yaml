@@ -14,10 +14,6 @@ spec:
             - --enable-helm-controller=true
             - --decryption-provider=sops
             - --decryption-secret=sops-age
-          volumeMounts:
-            - name: sops-age
-              mountPath: /tmp/sops-age/
-              readOnly: true
       volumes:
         - name: sops-age
           secret:
