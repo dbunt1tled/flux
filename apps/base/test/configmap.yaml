@@ -4,5 +4,6 @@ metadata:
   name: test-sync
   namespace: default
 data:
-  message: "Hello from FluxCD GitOps!"
+  message: "Hello from FluxCD GitOps!!!"
   timestamp: "$(date)"
+  phone: "1234567890"
