@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - ../base/test
   - ../../secrets/production
-  #- ../base/database
+  - ../base/database
