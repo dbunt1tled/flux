@@ -9,5 +9,3 @@ patches:
       name: kustomize-controller
       namespace: flux-system
     path: patches/sops-patch.yaml
-secretRef:
-  name: sops-age
