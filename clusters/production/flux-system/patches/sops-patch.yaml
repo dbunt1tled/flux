@@ -11,18 +11,18 @@ spec:
           env:
             - name: GNUPG_HOME
               value: /tmp
-          volumeMounts:
-            - name: sops-age
-              mountPath: /tmp/sops-age/
-              readOnly: true
           args:
             - --events-addr=http://notification-controller.flux-system.svc.cluster.local./
             - --watch-all-namespaces=true
-            - --log-level=info
+            - --log-level=debug
             - --log-encoding=json
             - --enable-helm-controller=true
             - --decryption-provider=sops
             - --decryption-secret=sops-age
+          volumeMounts:
+            - name: sops-age
+              mountPath: /tmp/sops-age/
+              readOnly: true
       volumes:
         - name: sops-age
           secret:
