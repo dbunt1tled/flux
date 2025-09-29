@@ -1,13 +1,7 @@
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - gotk-components.yaml
   - gotk-sync.yaml
-patches:
-  - target:
-      kind: Deployment
-      name: kustomize-controller
-      namespace: flux-system
-    path: patches/sops-patch.yaml
-secretRef:
-  name: sops-age
+patchesStrategicMerge:
+  - patches/sops-patch.yaml
