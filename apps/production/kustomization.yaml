@@ -4,4 +4,3 @@ resources:
   - ../base/test
   - ../base/database
   - ../../secrets/production
-  #- ../base/database
