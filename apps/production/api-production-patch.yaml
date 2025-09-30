@@ -11,10 +11,10 @@ spec:
         - name: api-app
           resources:
             requests:
-              memory: "256Mi"
+              memory: "128Mi"
               cpu: "200m"
             limits:
-              memory: "512Mi"
+              memory: "128Mi"
               cpu: "400m"
           env:
             - name: APP_ENV
