@@ -5,8 +5,3 @@ resources:
   - postgres-pvc.yaml
   - postgres-deployment.yaml
   - postgres-service.yaml
-
-commonLabels:
-  app.kubernetes.io/name: postgres
-  app.kubernetes.io/component: database
-  app.kubernetes.io/part-of: myapp
