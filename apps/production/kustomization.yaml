@@ -3,4 +3,10 @@ kind: Kustomization
 resources:
   - ../base/test
   - ../base/database
+  - ../base/api
   - ../../secrets/production
+commonLabels:
+  environment: production
+
+patchesStrategicMerge:
+  - api-production-patch.yaml

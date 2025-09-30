@@ -1,0 +1,8 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: api-app-image
+  namespace: flux-system
+spec:
+  image: dbunt1tled/test_docker
+  interval: 5m0s
