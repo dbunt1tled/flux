@@ -4,6 +4,7 @@ resources:
   - ../base/test
   - ../base/database
   - ../base/api
+  - ../base/ingress
   - ../../secrets/production
 commonLabels:
   environment: production
