@@ -9,7 +9,7 @@ metadata:
 spec:
   replicas: 1
   strategy:
-    type: Recreate  # Важно для stateful приложений с одним PVC
+    type: Recreate  # For stateful app with one PVC
   selector:
     matchLabels:
       app: postgres
@@ -45,7 +45,7 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "500m"
-          # Startup probe - даем время для первой инициализации
+          # Startup probe - time for first init
           startupProbe:
             exec:
               command:
@@ -55,8 +55,8 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 5
-            failureThreshold: 30  # 30 * 5 = 150 секунд на старт
-          # Readiness probe - готовность принимать соединения
+            failureThreshold: 30  # 30 * 5 = 150 seconds for start
+          # Readiness probe - ready to accept connections
           readinessProbe:
             exec:
               command:
@@ -67,7 +67,7 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
-          # Liveness probe - проверка что процесс жив
+          # Liveness probe - check that process is alive
           livenessProbe:
             exec:
               command:
@@ -82,6 +82,6 @@ spec:
         - name: postgres-storage
           persistentVolumeClaim:
             claimName: postgres-pvc
-      # Security context для PostgreSQL
+      # Security context for PostgresSQL
       securityContext:
         fsGroup: 999  # postgres user group

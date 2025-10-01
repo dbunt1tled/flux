@@ -23,14 +23,14 @@ spec:
       retries: 3
   values:
     controller:
-      # Настройки для Kind
+      # Settings for Kind
       replicaCount: 1
       service:
         type: NodePort
         nodePorts:
           http: 30080
           https: 30443
-      # Настройки для production (закомментированы)
+      # Settings for production
       # replicaCount: 2
       # service:
       #   type: LoadBalancer
