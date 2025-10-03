@@ -10,11 +10,11 @@ data:
       - name: Prometheus
         type: prometheus
         access: proxy
-        url: http://kube-prometheus-stack-prometheus:9090
+        url: http://kube-prometheus-stack-prometheus.flux-system:9090
         isDefault: true
         editable: true
       - name: Loki
         type: loki
         access: proxy
-        url: http://loki:3100
+        url: http://loki-stack.flux-system:3100
         editable: true
