@@ -16,6 +16,7 @@ spec:
   values:
     prometheus:
       prometheusSpec:
+        valuationInterval: 10m
         retention: 30d
         storageSpec:
           volumeClaimTemplate:
@@ -24,6 +25,11 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
+                  cpu: 500m
+                  memory: 1Gi
+                limits:
+                  cpu: 1
+                  memory: 2Gi
         serviceMonitorSelectorNilUsesHelmValues: false
     grafana:
       enabled: false  # используем Grafana из Loki Stack
