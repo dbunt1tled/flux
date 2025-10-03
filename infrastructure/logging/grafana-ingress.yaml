@@ -20,7 +20,7 @@ spec:
               service:
                 name: loki-stack-grafana
                 port:
-                  number: 3000
+                  number: 80
     # Если используете SSL:
     # tls:
     #   - hosts:

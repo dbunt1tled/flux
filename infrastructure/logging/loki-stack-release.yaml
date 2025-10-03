@@ -34,6 +34,7 @@ spec:
       adminUser: "admin"
       service:
         type: ClusterIP
+        port: 80
       persistence:
         enabled: true
         size: 1Gi
