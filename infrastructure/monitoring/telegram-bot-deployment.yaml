@@ -47,4 +47,5 @@ spec:
               memory: 64Mi
       volumes:
         - name: data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: alertmanager-bot-pvc
