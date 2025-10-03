@@ -1,6 +1,8 @@
 creation_rules:
   - path_regex: secrets/production/.*\.yaml$
     age: age1vn0qveeefceqjx26373f2kcqeva8yw92jyttd8hafwcse2twldxs0lcn4c
+  - path_regex: secrets/flux-system/.*\.yaml$
+    age: age1vn0qveeefceqjx26373f2kcqeva8yw92jyttd8hafwcse2twldxs0lcn4c
   - path_regex: .*\.encrypted\.yaml$
     age: age1vn0qveeefceqjx26373f2kcqeva8yw92jyttd8hafwcse2twldxs0lcn4c
   - path_regex: secrets/.*

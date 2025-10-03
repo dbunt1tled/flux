@@ -6,6 +6,7 @@ resources:
   - ../base/api
   - ../base/ingress
   - ../../secrets/production
+  - ../../secrets/flux-system
 commonLabels:
   environment: production
 
