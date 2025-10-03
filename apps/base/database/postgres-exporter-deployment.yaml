@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: postgres-exporter
-          image: bitnami/postgres-exporter:0.15.0
+          image: prometheuscommunity/postgres-exporter:v0.15.0
           ports:
             - containerPort: 9187
               name: metrics
