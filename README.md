@@ -108,7 +108,7 @@ This repository includes configurations for:
 
 ```bash
     kubectl port-forward -n flux-system svc/loki-stack-grafana 3000:80
-    kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80
+    kubectl port-forward -n ingress-nginx svc/ingress-nginx-ingress-nginx-controller 8080:80
 ```
 
 ## 🤝 Contributing
