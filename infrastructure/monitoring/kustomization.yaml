@@ -3,9 +3,6 @@ kind: Kustomization
 resources:
   - prometheus-repo.yaml
   - prometheus-stack-release.yaml
-  - api-prometheus-rules.yaml
-  - postgres-prometheus-rules.yaml
-  - flux-prometheus-rules.yaml
   - telegram-bot-deployment.yaml
   - telegram-bot-service.yaml
   - grafana-dashboard-api.yaml

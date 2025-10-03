@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - api-prometheus-rules.yaml
+  - postgres-prometheus-rules.yaml
+  - flux-prometheus-rules.yaml
