@@ -23,7 +23,7 @@ spec:
             - name: DATA_SOURCE_NAME
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secrets
+                  name: postgres-credentials
                   key: DATABASE_URL
           resources:
             limits:
