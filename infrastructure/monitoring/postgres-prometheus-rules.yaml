@@ -1,0 +1,57 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: postgres-alerts
+  namespace: flux-system
+  labels:
+    prometheus: kube-prometheus
+spec:
+  groups:
+    - name: postgres.rules
+      interval: 30s
+      rules:
+        - alert: PostgreSQLDown
+          expr: pg_up == 0
+          for: 1m
+          labels:
+            severity: critical
+            component: database
+          annotations:
+            summary: "PostgreSQL is down"
+            description: "PostgreSQL instance is down"
+
+        - alert: PostgreSQLTooManyConnections
+          expr: |
+            sum(pg_stat_activity_count) / 
+            sum(pg_settings_max_connections) > 0.8
+          for: 5m
+          labels:
+            severity: warning
+            component: database
+          annotations:
+            summary: "PostgreSQL too many connections"
+            description: "Connection usage is {{ $value | humanizePercentage }}"
+
+        - alert: PostgreSQLSlowQueries
+          expr: |
+            avg(rate(pg_stat_activity_max_tx_duration[5m])) > 60
+          for: 5m
+          labels:
+            severity: warning
+            component: database
+          annotations:
+            summary: "PostgreSQL slow queries detected"
+            description: "Average query duration is {{ $value }}s"
+
+        - alert: PostgreSQLHighDiskUsage
+          expr: |
+            (pg_database_size_bytes / 
+            (pg_database_size_bytes + 
+            node_filesystem_avail_bytes{mountpoint="/var/lib/postgresql/data"})) > 0.85
+          for: 5m
+          labels:
+            severity: critical
+            component: database
+          annotations:
+            summary: "PostgreSQL disk usage high"
+            description: "Disk usage is {{ $value | humanizePercentage }}"

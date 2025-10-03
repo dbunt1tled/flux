@@ -1,0 +1,67 @@
+# infrastructure/logging/loki-stack-release.yaml
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: loki-stack
+  namespace: flux-system
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: loki-stack
+      version: '2.10.x'
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  values:
+    loki:
+      enabled: true
+      persistence:
+        enabled: true
+        size: 1Gi
+      config:
+        auth_enabled: false
+        server:
+          http_listen_port: 3100
+    promtail:
+      enabled: true
+      config:
+        clients:
+          - url: http://loki:3100/loki/api/v1/push
+    grafana:
+      enabled: true
+      adminPassword: "admin"
+      adminUser: "admin"
+      service:
+        type: ClusterIP
+      persistence:
+        enabled: true
+        size: 1Gi
+      datasources:
+        datasources.yaml:
+          apiVersion: 1
+          datasources:
+            - name: Prometheus
+              type: prometheus
+              access: proxy
+              url: http://kube-prometheus-stack-prometheus.flux-system:9090
+              isDefault: true
+            - name: Loki
+              type: loki
+              access: proxy
+              url: http://loki:3100
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+            - name: 'default'
+              orgId: 1
+              folder: ''
+              type: file
+              disableDeletion: false
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/default
+      dashboardsConfigMaps:
+        default: "grafana-dashboards"

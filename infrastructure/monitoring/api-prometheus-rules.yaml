@@ -1,0 +1,57 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: api-alerts
+  namespace: flux-system
+  labels:
+    prometheus: kube-prometheus
+spec:
+  groups:
+    - name: api.rules
+      interval: 30s
+      rules:
+        - alert: APIHighErrorRate
+          expr: |
+            rate(http_requests_total{job="api",status=~"5.."}[5m]) > 0.05
+          for: 5m
+          labels:
+            severity: critical
+            component: api
+          annotations:
+            summary: "High error rate in API"
+            description: "API error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+
+        - alert: APIDown
+          expr: up{job="api"} == 0
+          for: 1m
+          labels:
+            severity: critical
+            component: api
+          annotations:
+            summary: "API is down"
+            description: "API has been down for more than 1 minute"
+
+        - alert: APIHighLatency
+          expr: |
+            histogram_quantile(0.95, 
+              rate(http_request_duration_seconds_bucket{job="api"}[5m])
+            ) > 1
+          for: 5m
+          labels:
+            severity: warning
+            component: api
+          annotations:
+            summary: "High API latency"
+            description: "95th percentile latency is {{ $value }}s (threshold: 1s)"
+
+        - alert: APIHighMemoryUsage
+          expr: |
+            container_memory_usage_bytes{pod=~"api-.*"} / 
+            container_spec_memory_limit_bytes{pod=~"api-.*"} > 0.9
+          for: 5m
+          labels:
+            severity: warning
+            component: api
+          annotations:
+            summary: "High memory usage in API"
+            description: "Memory usage is {{ $value | humanizePercentage }}"

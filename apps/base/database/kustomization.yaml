@@ -5,3 +5,6 @@ resources:
   - postgres-pvc.yaml
   - postgres-deployment.yaml
   - postgres-service.yaml
+  - postgres-exporter-deployment.yaml
+  - postgres-exporter-service.yaml
+  - postgres-service-monitor.yaml

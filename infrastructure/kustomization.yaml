@@ -4,3 +4,5 @@ resources:
   - namespaces
   - image-automation
   - controllers
+  - logging
+  - monitoring

@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-flux
+  namespace: flux-system
+  labels:
+    grafana_dashboard: "1"
+data:
+  flux-dashboard.json: |
+    {
+      "dashboard": {
+        "title": "FluxCD Monitoring",
+        "tags": ["flux", "gitops"],
+        "timezone": "browser",
+        "panels": [
+          {
+            "title": "Reconciliation Status",
+            "targets": [
+              {
+                "expr": "gotk_reconcile_condition{type=\"Ready\"}",
+                "legendFormat": "{{kind}}/{{name}} - {{status}}"
+              }
+            ],
+            "type": "stat",
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+          },
+          {
+            "title": "Reconciliation Duration",
+            "targets": [
+              {
+                "expr": "rate(gotk_reconcile_duration_seconds_sum[5m]) / rate(gotk_reconcile_duration_seconds_count[5m])",
+                "legendFormat": "{{kind}}/{{name}}"
+              }
+            ],
+            "type": "graph",
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+          },
+          {
+            "title": "Suspended Resources",
+            "targets": [
+              {
+                "expr": "gotk_suspend_status == 1",
+                "legendFormat": "{{kind}}/{{name}}"
+              }
+            ],
+            "type": "table",
+            "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8}
+          }
+        ]
+      }
+    }

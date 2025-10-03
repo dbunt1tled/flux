@@ -104,6 +104,13 @@ This repository includes configurations for:
 - TLS certificate management
 - Domain routing rules
 
+## Local Run
+
+```bash
+    kubectl port-forward -n flux-system svc/loki-stack-grafana 3000:80
+    kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80
+```
+
 ## 🤝 Contributing
 
 1. Fork the repository

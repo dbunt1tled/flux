@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager-bot
+  namespace: flux-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager-bot
+  template:
+    metadata:
+      labels:
+        app: alertmanager-bot
+    spec:
+      containers:
+        - name: alertmanager-bot
+          image: metalmatze/alertmanager-bot:0.4.3
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TELEGRAM_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: telegram-secrets
+                  key: chat-id
+            - name: TELEGRAM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: telegram-secrets
+                  key: bot-token
+            - name: LISTEN_ADDR
+              value: "0.0.0.0:8080"
+            - name: STORE
+              value: "bolt"
+            - name: BOLT_PATH
+              value: "/data/bot.db"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+      volumes:
+        - name: data
+          emptyDir: {}

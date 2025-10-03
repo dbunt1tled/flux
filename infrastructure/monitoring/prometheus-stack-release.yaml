@@ -1,0 +1,54 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: flux-system
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: '55.x.x'
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+  values:
+    prometheus:
+      prometheusSpec:
+        retention: 30d
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 1Gi
+        serviceMonitorSelectorNilUsesHelmValues: false
+    grafana:
+      enabled: false  # используем Grafana из Loki Stack
+    alertmanager:
+      enabled: true
+      config:
+        global:
+          resolve_timeout: 5m
+        route:
+          receiver: 'telegram'
+          group_by: [ 'alertname', 'cluster', 'severity' ]
+          group_wait: 10s
+          group_interval: 5m
+          repeat_interval: 12h
+          routes:
+            - match:
+                severity: critical
+              receiver: 'telegram'
+              continue: true
+            - match:
+                severity: warning
+              receiver: 'telegram'
+              continue: true
+        receivers:
+          - name: 'telegram'
+            webhook_configs:
+              - url: 'http://alertmanager-bot:8080/alert'
+                send_resolved: true

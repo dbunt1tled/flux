@@ -5,6 +5,7 @@ resources:
   - api-configmap.yaml
   - api-deployment.yaml
   - api-service.yaml
+  - api-service-monitor.yaml
 
 commonLabels:
   app.kubernetes.io/name: api-app

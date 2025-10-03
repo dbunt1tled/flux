@@ -1,0 +1,33 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: flux-alerts
+  namespace: flux-system
+  labels:
+    prometheus: kube-prometheus
+spec:
+  groups:
+    - name: flux.rules
+      interval: 30s
+      rules:
+        - alert: FluxReconciliationFailure
+          expr: |
+            max(gotk_reconcile_condition{type="Ready",status="False"}) by (name, namespace, kind) == 1
+          for: 10m
+          labels:
+            severity: warning
+            component: flux
+          annotations:
+            summary: "Flux reconciliation failure"
+            description: "{{ $labels.kind }}/{{ $labels.name }} in {{ $labels.namespace }} failed reconciliation"
+
+        - alert: FluxSuspendedResource
+          expr: |
+            max(gotk_suspend_status) by (name, namespace, kind) == 1
+          for: 1h
+          labels:
+            severity: info
+            component: flux
+          annotations:
+            summary: "Flux resource suspended"
+            description: "{{ $labels.kind }}/{{ $labels.name }} in {{ $labels.namespace }} is suspended"
