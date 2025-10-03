@@ -6,8 +6,6 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    # Если используете cert-manager для SSL:
-    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   rules:
@@ -21,8 +19,3 @@ spec:
                 name: loki-stack-grafana
                 port:
                   number: 80
-    # Если используете SSL:
-    # tls:
-    #   - hosts:
-    #       - grafana.flux-cd.local
-    #     secretName: grafana-tls
