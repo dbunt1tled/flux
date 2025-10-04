@@ -5,3 +5,4 @@ resources:
   - loki-stack-release.yaml
   - grafana-datasources.yaml
   - grafana-ingress.yaml
+  - grafana-allow-ingress.yaml
