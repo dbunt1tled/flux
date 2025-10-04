@@ -5,6 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
+  timeout: 10m
   chart:
     spec:
       chart: loki-stack
@@ -19,10 +20,6 @@ spec:
       persistence:
         enabled: true
         size: 1Gi
-      config:
-        auth_enabled: false
-        server:
-          http_listen_port: 3100
     promtail:
       enabled: true
       config:
@@ -31,11 +28,10 @@ spec:
     grafana:
       enabled: true
       adminPassword: "admin"
-      adminUser: "admin"
       service:
         type: ClusterIP
-        port: 3000
-        targetPort: 3000
+        port: 3000  # 80
+        targetPort: 3000 # убрать
       persistence:
         enabled: true
         size: 1Gi
@@ -47,11 +43,31 @@ spec:
               type: prometheus
               access: proxy
               url: http://kube-prometheus-stack-prometheus.flux-system:9090
-              isDefault: true
+              isDefault: true          # ← Только этот default!
+              editable: true
+              jsonData:
+                timeInterval: 30s
             - name: Loki
               type: loki
               access: proxy
-              url: http://loki-stack.flux-system:3100
+              url: http://loki:3100
+              isDefault: false         # ← НЕ default
+              editable: true
+            - name: Alertmanager
+              type: alertmanager
+              access: proxy
+              url: http://kube-prometheus-stack-alertmanager.flux-system:9093
+              isDefault: false         # ← НЕ default
+              editable: true
+              jsonData:
+                implementation: prometheus
+      sidecar:
+        datasources:
+          enabled: false       # ← ВАЖНО: отключить!
+        dashboards:
+          enabled: true        # Дашборды можно оставить
+          label: grafana_dashboard
+          folder: /tmp/dashboards
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1
@@ -65,4 +81,4 @@ spec:
               options:
                 path: /var/lib/grafana/dashboards/default
       dashboardsConfigMaps:
-        default: "grafana-dashboards"
+        default: grafana-dashboards
