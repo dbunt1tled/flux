@@ -30,8 +30,8 @@ spec:
       adminPassword: "admin"
       service:
         type: ClusterIP
-        port: 3000  # 80
-        targetPort: 3000 # убрать
+        port: 80  # 3000
+        # targetPort: 3000 # убрать
       persistence:
         enabled: true
         size: 1Gi
